@@ -14,6 +14,7 @@ class PageTemplate(QWidget):
         layout.setContentsMargins(30, 30, 30, 30)
         layout.setSpacing(10)
 
+
         title_label = QLabel(title)
 
         title_label.setStyleSheet(f"""
