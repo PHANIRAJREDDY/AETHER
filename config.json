@@ -1,0 +1,9 @@
+{
+    "application": {
+        "name": "AETHER",
+        "version": "0.2.0-alpha"
+    },
+    "theme": "dark",
+    "language": "en",
+    "workspace": {}
+}
