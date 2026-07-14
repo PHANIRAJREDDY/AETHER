@@ -2,13 +2,14 @@
 =========================================================
 AETHER
 Main Window
-Version : 3.0.0
+Version : 4.0.0
 =========================================================
 """
 
 from PySide6.QtWidgets import (
     QHBoxLayout,
     QMainWindow,
+    QVBoxLayout,
     QWidget,
 )
 
@@ -16,6 +17,8 @@ from core.managers.navigation_manager import NavigationManager
 from core.managers.page_manager import PageManager
 
 from ui.components.sidebar import Sidebar
+from ui.components.toolbar.toolbar import Toolbar
+from ui.components.workspace.workspace import Workspace
 
 
 class MainWindow(QMainWindow):
@@ -34,7 +37,13 @@ class MainWindow(QMainWindow):
 
         self.navigation.connect(self.page_manager)
 
+        self.workspace = Workspace()
+
+        self.toolbar = Toolbar()
+
         self.build_ui()
+
+        self.initialize_workspace()
 
     def build_ui(self):
 
@@ -42,11 +51,11 @@ class MainWindow(QMainWindow):
 
         self.setCentralWidget(central)
 
-        layout = QHBoxLayout(central)
+        root_layout = QHBoxLayout(central)
 
-        layout.setContentsMargins(0, 0, 0, 0)
+        root_layout.setContentsMargins(0, 0, 0, 0)
 
-        layout.setSpacing(0)
+        root_layout.setSpacing(0)
 
         self.sidebar = Sidebar()
 
@@ -54,6 +63,30 @@ class MainWindow(QMainWindow):
             self.navigation.navigate
         )
 
-        layout.addWidget(self.sidebar)
+        root_layout.addWidget(self.sidebar)
 
-        layout.addWidget(self.page_manager)
+        right_container = QWidget()
+
+        right_layout = QVBoxLayout(right_container)
+
+        right_layout.setContentsMargins(0, 0, 0, 0)
+
+        right_layout.setSpacing(0)
+
+        right_layout.addWidget(self.toolbar)
+
+        right_layout.addWidget(self.workspace)
+
+        root_layout.addWidget(right_container)
+
+    def initialize_workspace(self):
+
+        for page_name in self.page_manager.page_names():
+
+            page = self.page_manager.get_page(page_name)
+
+            self.workspace.add_page(page)
+
+        self.workspace.set_page(
+            self.page_manager.get_page("dashboard")
+        )
