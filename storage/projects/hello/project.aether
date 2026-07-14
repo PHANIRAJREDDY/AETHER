@@ -1,0 +1,13 @@
+{
+    "name": "hello",
+    "version": "1.0.0",
+    "modules": [
+        "AI",
+        "Research",
+        "Innovation",
+        "Documents",
+        "Tasks",
+        "Files",
+        "Knowledge"
+    ]
+}
